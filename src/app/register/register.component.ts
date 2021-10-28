@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup ,Validators} from '@angular/forms';
 import { UserService } from '../user.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -9,7 +9,7 @@ import { UserService } from '../user.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,private router:Router) {
     this.registerForm = new FormGroup({
       'username': new FormControl('', Validators.required),
       'email': new FormControl('',[Validators.required, Validators.email]),
@@ -22,7 +22,8 @@ export class RegisterComponent implements OnInit {
 
   submit() {
     this.userService.registerUser(this.registerForm.value).subscribe((data) => {
-      alert("User Created Sussfully")
+      alert("User Created Successfully")
+      this.router.navigate(["/login"])
     }, (err) => {
       console.log(err)
     })
